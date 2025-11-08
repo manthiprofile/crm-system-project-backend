@@ -1,0 +1,86 @@
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
+import { CustomerAccount } from '@domain/entities/CustomerAccount';
+
+/**
+ * TypeORM entity for CustomerAccount.
+ * Maps the domain entity to the database table.
+ */
+@Entity('customer_accounts')
+export class CustomerAccountEntity {
+  @PrimaryGeneratedColumn('uuid')
+  public accountId!: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  public firstName!: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  public lastName!: string;
+
+  @Column({ type: 'varchar', length: 255, unique: true })
+  public email!: string;
+
+  @Column({ type: 'varchar', length: 20, nullable: true })
+  public phoneNumber?: string;
+
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  public address?: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  public city?: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  public state?: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  public country?: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  public dateCreated!: Date;
+
+  /**
+   * Converts the TypeORM entity to a domain entity.
+   *
+   * @returns CustomerAccount domain entity
+   */
+  public toDomain(): CustomerAccount {
+    return new CustomerAccount(
+      this.accountId,
+      this.firstName,
+      this.lastName,
+      this.email,
+      this.phoneNumber,
+      this.address,
+      this.city,
+      this.state,
+      this.country,
+      this.dateCreated,
+    );
+  }
+
+  /**
+   * Creates a TypeORM entity from a domain entity.
+   *
+   * @param customerAccount - The domain entity to convert
+   * @returns CustomerAccountEntity instance
+   */
+  public static fromDomain(customerAccount: CustomerAccount): CustomerAccountEntity {
+    const entity = new CustomerAccountEntity();
+    entity.accountId = customerAccount.accountId;
+    entity.firstName = customerAccount.firstName;
+    entity.lastName = customerAccount.lastName;
+    entity.email = customerAccount.email;
+    entity.phoneNumber = customerAccount.phoneNumber;
+    entity.address = customerAccount.address;
+    entity.city = customerAccount.city;
+    entity.state = customerAccount.state;
+    entity.country = customerAccount.country;
+    entity.dateCreated = customerAccount.dateCreated;
+    return entity;
+  }
+}
+
