@@ -1,0 +1,18 @@
+---
+alwaysApply: true
+---
+-use clean architecture software development approach when designing the system (domain,usecases and infrastruture)
+-always follow clean code coding best practices when developing
+-write testable maintainable and readable code
+-Every function, variable, and parameter must have explicit types.
+-Use DTOs (Data Transfer Objects) for communication between layers.
+-adhere to Single Responsibility Principle when declaring each module/class/function
+-follow pascalCase when declaring entities
+-follow camelCase when declaring functions and variables
+-for interfaces declaration use 'I' prefix (e.g., ICustomerAccountRepository)
+-for DTO declarations use 'DTO' suffix (e.g., CreateCustomerAccountDTO)
+-maintain 80% unit test coverage including functions and all other testable lines
+-run and check for eslint violations and correct them
+-always maintain pure functions in domain layer
+-check on type safety
+-add TSDOCS to each function declaration for professional, maintainable, and team-friendly code 
