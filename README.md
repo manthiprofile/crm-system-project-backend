@@ -36,8 +36,29 @@ src/
 ## Prerequisites
 
 - Node.js 24.11.0 or higher
-- PostgreSQL database
+- PostgreSQL 12 or higher
 - npm or yarn
+
+### Installing PostgreSQL
+
+**Windows:**
+- Download from [PostgreSQL Downloads](https://www.postgresql.org/download/windows/)
+- Run the installer and remember the password you set for the `postgres` user
+- Default port: `5432`
+
+**macOS:**
+```bash
+brew install postgresql@15
+brew services start postgresql@15
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+```
 
 ## Installation
 
@@ -52,23 +73,210 @@ cd crm-system-project-backend
 npm install
 ```
 
-3. Create a `.env` file in the root directory (see Environment Variables section)
+3. **Set up the database** (see [Database Setup](#database-setup) section below):
+```bash
+# Quick setup (automated)
+npm run db:setup
 
-4. Run database migrations:
+# Or manually (see Database Setup section)
+```
+
+4. Create a `.env` file in the root directory:
+```bash
+# Copy the example file
+cp .env.example .env
+
+# Edit .env and update with your PostgreSQL credentials
+```
+
+5. Run database migrations:
 ```bash
 npm run migration:run
 ```
 
+6. (Optional) Verify database connection:
+```bash
+npm run db:check
+```
+
+## Database Setup
+
+### Quick Setup (Recommended)
+
+The easiest way to set up the database is using the automated script:
+
+```bash
+npm run db:setup
+```
+
+This script will:
+- Check if PostgreSQL is running
+- Create the `crm_system` database if it doesn't exist
+- Enable the UUID extension required for the application
+- Verify the setup
+
+**Note:** Make sure PostgreSQL is running before executing this command.
+
+### Manual Setup
+
+If you prefer to set up the database manually:
+
+#### Step 1: Create the Database
+
+**Using psql (Command Line):**
+```bash
+# Connect to PostgreSQL
+psql -U postgres
+
+# Create the database
+CREATE DATABASE crm_system;
+
+# Connect to the new database
+\c crm_system
+
+# Enable UUID extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+# Exit psql
+\q
+```
+
+**Using SQL Script:**
+```bash
+# Linux/macOS
+psql -U postgres -f scripts/setup-database.sql
+
+# Windows (PowerShell)
+psql -U postgres -f scripts\setup-database.sql
+```
+
+#### Step 2: Configure Environment Variables
+
+Copy `.env.example` to `.env` and update the database credentials:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and update:
+- `DB_PASSWORD` - Your PostgreSQL password
+- `DB_USERNAME` - Your PostgreSQL username (default: `postgres`)
+- Other settings if needed
+
+#### Step 3: Run Migrations
+
+```bash
+npm run migration:run
+```
+
+This will create all necessary tables in the database.
+
+### Platform-Specific Setup
+
+#### Windows
+
+1. Ensure PostgreSQL service is running (check Services: `services.msc`)
+2. Run the setup script:
+```powershell
+npm run db:setup
+```
+
+Or manually:
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/setup-database.ps1
+```
+
+#### macOS / Linux
+
+1. Ensure PostgreSQL is running:
+```bash
+# macOS
+brew services start postgresql@15
+
+# Linux
+sudo systemctl start postgresql
+```
+
+2. Run the setup script:
+```bash
+npm run db:setup
+```
+
+Or manually:
+```bash
+bash scripts/setup-database.sh
+```
+
+### Database Setup Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run db:setup` | Automated database setup (creates DB and enables extensions) |
+| `npm run db:create` | Alias for `db:setup` |
+| `npm run db:migrate` | Run database migrations (creates tables) |
+| `npm run db:check` | Verify database connection and setup |
+| `npm run migration:run` | Run pending migrations |
+| `npm run migration:revert` | Revert the last migration |
+
+### Troubleshooting
+
+**PostgreSQL is not running:**
+- **Windows:** Start PostgreSQL service from Services (`services.msc`)
+- **macOS:** `brew services start postgresql@15`
+- **Linux:** `sudo systemctl start postgresql`
+
+**Connection refused:**
+- Verify PostgreSQL is running on the correct port (default: 5432)
+- Check firewall settings
+- Verify credentials in `.env` file
+
+**Database already exists:**
+- The setup script is idempotent - safe to run multiple times
+- If you need to start fresh: `npm run db:reset` (drops and recreates)
+
+**UUID extension error:**
+- Ensure you're connected to the `crm_system` database
+- Run: `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
+
+**Permission denied:**
+- Ensure your PostgreSQL user has CREATE DATABASE privileges
+- On Linux, you may need to use `sudo -u postgres psql`
+
+### Verify Setup
+
+After setup, verify everything is working:
+
+```bash
+# Check database connection
+npm run db:check
+
+# This will verify:
+# - Database connection
+# - UUID extension is enabled
+# - Migrations have been run
+# - Tables exist
+```
+
 ## Environment Variables
 
-Create a `.env` file in the root directory with the following variables:
+The project includes a `.env.example` file with all required environment variables. To set up your environment:
 
+1. Copy the example file:
+```bash
+cp .env.example .env
+```
+
+2. Edit `.env` and update the values, especially:
+   - `DB_PASSWORD` - Your PostgreSQL password
+   - `DB_USERNAME` - Your PostgreSQL username (if different from `postgres`)
+
+**Example `.env` file:**
 ```env
 # Database Configuration
 DB_HOST=localhost
 DB_PORT=5432
 DB_USERNAME=postgres
-DB_PASSWORD=postgres
+DB_PASSWORD=your_password_here
 DB_DATABASE=crm_system
 
 # Application Configuration
