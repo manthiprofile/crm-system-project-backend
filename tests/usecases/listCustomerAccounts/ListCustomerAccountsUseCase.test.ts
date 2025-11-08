@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { ListCustomerAccountsUseCase } from '../ListCustomerAccountsUseCase';
+import { ListCustomerAccountsUseCase } from '@usecases/listCustomerAccounts/ListCustomerAccountsUseCase';
 import { ICustomerAccountRepository } from '@domain/repositories/ICustomerAccountRepository';
 import { CustomerAccount } from '@domain/entities/CustomerAccount';
 

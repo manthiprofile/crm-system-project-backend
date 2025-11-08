@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { CreateCustomerAccountUseCase } from '../CreateCustomerAccountUseCase';
+import { CreateCustomerAccountUseCase } from '@usecases/createCustomerAccount/CreateCustomerAccountUseCase';
 import { ICustomerAccountRepository } from '@domain/repositories/ICustomerAccountRepository';
 import { CustomerAccount } from '@domain/entities/CustomerAccount';
 import { DuplicateEmailException } from '@domain/exceptions/DuplicateEmailException';

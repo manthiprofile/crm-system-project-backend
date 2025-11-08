@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { DeleteCustomerAccountUseCase } from '../DeleteCustomerAccountUseCase';
+import { DeleteCustomerAccountUseCase } from '@usecases/deleteCustomerAccount/DeleteCustomerAccountUseCase';
 import { ICustomerAccountRepository } from '@domain/repositories/ICustomerAccountRepository';
 import { CustomerAccount } from '@domain/entities/CustomerAccount';
 import { CustomerAccountNotFoundException } from '@domain/exceptions/CustomerAccountNotFoundException';

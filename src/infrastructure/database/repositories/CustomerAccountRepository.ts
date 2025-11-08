@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CustomerAccount } from '@domain/entities/CustomerAccount';
-import { ICustomerAccountRepository } from '@domain/repositories/ICustomerAccountRepository';
 import { CustomerAccountEntity } from '../entities/CustomerAccountEntity';
+import type { ICustomerAccountRepository } from '@domain/repositories/ICustomerAccountRepository';
+import { CustomerAccount } from '@domain/entities/CustomerAccount';
 import { CustomerAccountNotFoundException } from '@domain/exceptions/CustomerAccountNotFoundException';
 import { DuplicateEmailException } from '@domain/exceptions/DuplicateEmailException';
 
@@ -25,7 +25,7 @@ export class CustomerAccountRepository implements ICustomerAccountRepository {
    * @returns Promise resolving to the created customer account
    * @throws DuplicateEmailException if email already exists
    */
-  public async create(customerAccount: CustomerAccount): Promise<CustomerAccount> {
+  async create(customerAccount: CustomerAccount): Promise<CustomerAccount> {
     const existingAccount = await this.findByEmail(customerAccount.email);
     if (existingAccount) {
       throw new DuplicateEmailException(customerAccount.email);
@@ -42,7 +42,7 @@ export class CustomerAccountRepository implements ICustomerAccountRepository {
    * @param accountId - The unique identifier of the account
    * @returns Promise resolving to the customer account or null if not found
    */
-  public async findById(accountId: string): Promise<CustomerAccount | null> {
+  async findById(accountId: string): Promise<CustomerAccount | null> {
     const entity = await this.repository.findOne({
       where: { accountId },
     });
@@ -59,10 +59,11 @@ export class CustomerAccountRepository implements ICustomerAccountRepository {
    *
    * @returns Promise resolving to an array of all customer accounts
    */
-  public async findAll(): Promise<CustomerAccount[]> {
+  async findAll(): Promise<CustomerAccount[]> {
     const entities = await this.repository.find({
       order: { dateCreated: 'DESC' },
     });
+
     return entities.map((entity) => entity.toDomain());
   }
 
@@ -75,7 +76,7 @@ export class CustomerAccountRepository implements ICustomerAccountRepository {
    * @throws CustomerAccountNotFoundException if account not found
    * @throws DuplicateEmailException if email already exists
    */
-  public async update(
+  async update(
     accountId: string,
     customerAccount: Partial<CustomerAccount>,
   ): Promise<CustomerAccount> {
@@ -87,6 +88,7 @@ export class CustomerAccountRepository implements ICustomerAccountRepository {
       throw new CustomerAccountNotFoundException(accountId);
     }
 
+    // Check for duplicate email if email is being updated
     if (customerAccount.email && customerAccount.email !== existingEntity.email) {
       const emailExists = await this.findByEmail(customerAccount.email);
       if (emailExists) {
@@ -116,7 +118,7 @@ export class CustomerAccountRepository implements ICustomerAccountRepository {
    * @returns Promise that resolves when deletion is complete
    * @throws CustomerAccountNotFoundException if account not found
    */
-  public async delete(accountId: string): Promise<void> {
+  async delete(accountId: string): Promise<void> {
     const entity = await this.repository.findOne({
       where: { accountId },
     });
@@ -134,7 +136,7 @@ export class CustomerAccountRepository implements ICustomerAccountRepository {
    * @param email - The email address to search for
    * @returns Promise resolving to the customer account or null if not found
    */
-  public async findByEmail(email: string): Promise<CustomerAccount | null> {
+  async findByEmail(email: string): Promise<CustomerAccount | null> {
     const entity = await this.repository.findOne({
       where: { email },
     });

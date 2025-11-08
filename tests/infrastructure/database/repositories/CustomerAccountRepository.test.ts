@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Repository } from 'typeorm';
-import { CustomerAccountRepository } from '../CustomerAccountRepository';
-import { CustomerAccountEntity } from '../../entities/CustomerAccountEntity';
+import { CustomerAccountRepository } from '@infrastructure/database/repositories/CustomerAccountRepository';
+import { CustomerAccountEntity } from '@infrastructure/database/entities/CustomerAccountEntity';
 import { CustomerAccount } from '@domain/entities/CustomerAccount';
 import { CustomerAccountNotFoundException } from '@domain/exceptions/CustomerAccountNotFoundException';
 import { DuplicateEmailException } from '@domain/exceptions/DuplicateEmailException';

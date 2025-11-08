@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { GetCustomerAccountUseCase } from '../GetCustomerAccountUseCase';
+import { GetCustomerAccountUseCase } from '@usecases/getCustomerAccount/GetCustomerAccountUseCase';
 import { ICustomerAccountRepository } from '@domain/repositories/ICustomerAccountRepository';
 import { CustomerAccount } from '@domain/entities/CustomerAccount';
 import { CustomerAccountNotFoundException } from '@domain/exceptions/CustomerAccountNotFoundException';

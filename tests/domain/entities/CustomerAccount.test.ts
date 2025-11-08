@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { CustomerAccount } from '../CustomerAccount';
+import { CustomerAccount } from '@domain/entities/CustomerAccount';
 
 describe('CustomerAccount', () => {
   describe('constructor', () => {

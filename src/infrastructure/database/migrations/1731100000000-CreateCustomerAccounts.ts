@@ -4,6 +4,11 @@ import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
  * Migration to create the customer_accounts table.
  */
 export class CreateCustomerAccounts1731100000000 implements MigrationInterface {
+  /**
+   * Creates the customer_accounts table with all required columns and indexes.
+   *
+   * @param queryRunner - TypeORM query runner
+   */
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -86,6 +91,11 @@ export class CreateCustomerAccounts1731100000000 implements MigrationInterface {
     );
   }
 
+  /**
+   * Drops the customer_accounts table.
+   *
+   * @param queryRunner - TypeORM query runner
+   */
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('customer_accounts');
   }
