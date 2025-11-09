@@ -24,7 +24,7 @@ describe('UpdateCustomerAccountUseCase', () => {
 
   describe('execute', () => {
     it('should update a customer account successfully', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
       const existingAccount = new CustomerAccount(
         accountId,
         'John',
@@ -52,7 +52,7 @@ describe('UpdateCustomerAccountUseCase', () => {
     });
 
     it('should throw CustomerAccountNotFoundException when account not found', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
       const dto = { firstName: 'Jane' };
 
       vi.mocked(mockRepository.findById).mockResolvedValue(null);
@@ -64,7 +64,7 @@ describe('UpdateCustomerAccountUseCase', () => {
     });
 
     it('should throw InvalidCustomerAccountException if firstName is empty', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
       const existingAccount = new CustomerAccount(
         accountId,
         'John',
@@ -82,7 +82,7 @@ describe('UpdateCustomerAccountUseCase', () => {
     });
 
     it('should throw InvalidCustomerAccountException if email format is invalid', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
       const existingAccount = new CustomerAccount(
         accountId,
         'John',

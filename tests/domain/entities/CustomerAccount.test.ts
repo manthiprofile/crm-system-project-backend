@@ -5,13 +5,13 @@ describe('CustomerAccount', () => {
   describe('constructor', () => {
     it('should create a CustomerAccount with all required fields', () => {
       const account = new CustomerAccount(
-        '123e4567-e89b-12d3-a456-426614174000',
+        1,
         'John',
         'Doe',
         'john.doe@example.com',
       );
 
-      expect(account.accountId).toBe('123e4567-e89b-12d3-a456-426614174000');
+      expect(account.accountId).toBe(1);
       expect(account.firstName).toBe('John');
       expect(account.lastName).toBe('Doe');
       expect(account.email).toBe('john.doe@example.com');
@@ -20,7 +20,7 @@ describe('CustomerAccount', () => {
 
     it('should create a CustomerAccount with optional fields', () => {
       const account = new CustomerAccount(
-        '123e4567-e89b-12d3-a456-426614174000',
+        1,
         'John',
         'Doe',
         'john.doe@example.com',
@@ -41,7 +41,7 @@ describe('CustomerAccount', () => {
     it('should use current date if dateCreated is not provided', () => {
       const beforeCreation = new Date();
       const account = new CustomerAccount(
-        '123e4567-e89b-12d3-a456-426614174000',
+        1,
         'John',
         'Doe',
         'john.doe@example.com',
@@ -60,7 +60,7 @@ describe('CustomerAccount', () => {
   describe('getFullName', () => {
     it('should return the concatenated first and last name', () => {
       const account = new CustomerAccount(
-        '123e4567-e89b-12d3-a456-426614174000',
+        1,
         'John',
         'Doe',
         'john.doe@example.com',
@@ -73,7 +73,7 @@ describe('CustomerAccount', () => {
   describe('update', () => {
     it('should create a new CustomerAccount with updated fields', () => {
       const originalAccount = new CustomerAccount(
-        '123e4567-e89b-12d3-a456-426614174000',
+        1,
         'John',
         'Doe',
         'john.doe@example.com',
@@ -100,7 +100,7 @@ describe('CustomerAccount', () => {
 
     it('should preserve original values for fields not updated', () => {
       const originalAccount = new CustomerAccount(
-        '123e4567-e89b-12d3-a456-426614174000',
+        1,
         'John',
         'Doe',
         'john.doe@example.com',

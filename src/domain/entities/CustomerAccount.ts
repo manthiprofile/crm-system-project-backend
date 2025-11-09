@@ -3,7 +3,7 @@
  * This is a pure domain entity with no infrastructure dependencies.
  */
 export class CustomerAccount {
-  public readonly accountId: string;
+  public readonly accountId: number;
   public readonly firstName: string;
   public readonly lastName: string;
   public readonly email: string;
@@ -17,7 +17,7 @@ export class CustomerAccount {
   /**
    * Creates a new CustomerAccount instance.
    *
-   * @param accountId - Unique identifier for the account (UUID)
+   * @param accountId - Unique identifier for the account (serial ID)
    * @param firstName - Customer's first name (required)
    * @param lastName - Customer's last name (required)
    * @param email - Customer's email address (required, unique)
@@ -29,7 +29,7 @@ export class CustomerAccount {
    * @param dateCreated - Date when the account was created (auto-generated)
    */
   constructor(
-    accountId: string,
+    accountId: number,
     firstName: string,
     lastName: string,
     email: string,

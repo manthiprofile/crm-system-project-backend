@@ -6,10 +6,10 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
  */
 export class CustomerAccountResponseDTO {
   @ApiProperty({
-    description: 'Unique identifier for the customer account (UUID)',
-    example: '123e4567-e89b-12d3-a456-426614174000',
+    description: 'Unique identifier for the customer account (serial ID)',
+    example: 1,
   })
-  public accountId!: string;
+  public accountId!: number;
 
   @ApiProperty({
     description: 'Customer first name',
@@ -72,7 +72,7 @@ export class CustomerAccountResponseDTO {
    * @returns CustomerAccountResponseDTO instance
    */
   public static fromDomain(customerAccount: {
-    accountId: string;
+    accountId: number;
     firstName: string;
     lastName: string;
     email: string;

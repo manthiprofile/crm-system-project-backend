@@ -21,7 +21,7 @@ export interface ICustomerAccountRepository {
    * @param accountId - The unique identifier of the account
    * @returns Promise resolving to the customer account or null if not found
    */
-  findById(accountId: string): Promise<CustomerAccount | null>;
+  findById(accountId: number): Promise<CustomerAccount | null>;
 
   /**
    * Retrieves all customer accounts from the repository.
@@ -38,7 +38,7 @@ export interface ICustomerAccountRepository {
    * @returns Promise resolving to the updated customer account
    * @throws Error if account not found or update fails
    */
-  update(accountId: string, customerAccount: Partial<CustomerAccount>): Promise<CustomerAccount>;
+  update(accountId: number, customerAccount: Partial<CustomerAccount>): Promise<CustomerAccount>;
 
   /**
    * Deletes a customer account by its unique identifier.
@@ -47,7 +47,7 @@ export interface ICustomerAccountRepository {
    * @returns Promise that resolves when deletion is complete
    * @throws Error if account not found or deletion fails
    */
-  delete(accountId: string): Promise<void>;
+  delete(accountId: number): Promise<void>;
 
   /**
    * Finds a customer account by email address.

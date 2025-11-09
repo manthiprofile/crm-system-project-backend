@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Bash script to set up PostgreSQL database for CRM System
-# This script creates the database and enables the UUID extension
+# This script creates the database
 
 set -e
 
@@ -81,13 +81,7 @@ else
     fi
 fi
 
-# Step 2: Enable UUID extension
-echo -e "\n${CYAN}Enabling UUID extension...${NC}"
-if ! execute_postgres_command "$DB_DATABASE" "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";" "Enable UUID extension"; then
-    echo -e "${YELLOW}Warning: Could not enable UUID extension. You may need to enable it manually.${NC}"
-fi
-
-# Step 3: Verify setup
+# Step 2: Verify setup
 echo -e "\n${CYAN}Verifying database setup...${NC}"
 VERIFY_RESULT=$(psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USERNAME" -d "$DB_DATABASE" -tAc "SELECT 1;" 2>/dev/null || echo "0")
 

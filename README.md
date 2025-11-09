@@ -112,7 +112,6 @@ npm run db:setup
 This script will:
 - Check if PostgreSQL is running
 - Create the `crm_system` database if it doesn't exist
-- Enable the UUID extension required for the application
 - Verify the setup
 
 **Note:** Make sure PostgreSQL is running before executing this command.
@@ -133,9 +132,6 @@ CREATE DATABASE crm_system;
 
 # Connect to the new database
 \c crm_system
-
-# Enable UUID extension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 # Exit psql
 \q
@@ -282,9 +278,17 @@ DB_DATABASE=crm_system
 # Application Configuration
 PORT=3000
 NODE_ENV=development
+
+# CORS Configuration
+FRONTEND_ORIGIN=http://localhost:5173
+CORS_ORIGINS=http://localhost:5173
 ```
 
 ### Environment Variables Description
+
+- **FRONTEND_ORIGIN**: Frontend application origin URL (default: `http://localhost:5173`)
+- **CORS_ORIGINS**: Comma-separated list of allowed CORS origins (default: `http://localhost:5173`)
+  - Example: `http://localhost:5173,http://localhost:3000,https://yourdomain.com`
 
 - **DB_HOST**: PostgreSQL database host (default: localhost)
 - **DB_PORT**: PostgreSQL database port (default: 5432)
@@ -323,6 +327,54 @@ The Swagger documentation provides:
 - Interactive API testing interface
 
 You can test all endpoints directly from the Swagger UI without needing external tools like Postman.
+
+## CORS Configuration
+
+The backend is configured to handle Cross-Origin Resource Sharing (CORS) requests from frontend applications. CORS is automatically enabled with the following configuration:
+
+### Default Configuration
+
+- **Default Frontend Origin**: `http://localhost:5173`
+- **Allowed Methods**: `GET`, `POST`, `PATCH`, `DELETE`, `OPTIONS`
+- **Allowed Headers**: `Content-Type`, `Authorization`, `Accept`
+- **Credentials**: Enabled (allows cookies and authentication headers)
+
+### Configuration via Environment Variables
+
+You can configure CORS by setting the following environment variables in your `.env` file:
+
+```env
+# Single frontend origin
+FRONTEND_ORIGIN=http://localhost:5173
+
+# Multiple allowed origins (comma-separated)
+CORS_ORIGINS=http://localhost:5173,http://localhost:3000,https://yourdomain.com
+```
+
+### Production Configuration
+
+For production, make sure to:
+
+1. Set `CORS_ORIGINS` to your production frontend URL(s)
+2. Only include trusted origins (never use `*` or allow all origins)
+3. Use HTTPS URLs for production frontends
+
+**Example production `.env`:**
+```env
+CORS_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
+```
+
+### Testing CORS
+
+When the application starts, you'll see a log message indicating which origins are allowed:
+```
+CORS enabled for origins: http://localhost:5173
+```
+
+To test CORS from your frontend, make sure:
+- Your frontend URL matches one of the allowed origins
+- The backend is running and accessible
+- Your frontend sends requests with the correct `Content-Type` header
 
 ## API Endpoints
 

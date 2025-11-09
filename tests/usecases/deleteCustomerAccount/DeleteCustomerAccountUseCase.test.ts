@@ -23,7 +23,7 @@ describe('DeleteCustomerAccountUseCase', () => {
 
   describe('execute', () => {
     it('should delete a customer account successfully', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
       const customerAccount = new CustomerAccount(
         accountId,
         'John',
@@ -41,7 +41,7 @@ describe('DeleteCustomerAccountUseCase', () => {
     });
 
     it('should throw CustomerAccountNotFoundException when account not found', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
 
       vi.mocked(mockRepository.findById).mockResolvedValue(null);
 

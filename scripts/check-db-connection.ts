@@ -5,7 +5,7 @@ config();
 
 /**
  * Database connection health check script.
- * Verifies database connectivity, existence, UUID extension, and basic query execution.
+ * Verifies database connectivity, existence, and basic query execution.
  */
 async function checkDatabaseConnection(): Promise<void> {
   const dbHost = process.env.DB_HOST || 'localhost';
@@ -62,31 +62,15 @@ async function checkDatabaseConnection(): Promise<void> {
     await targetClient.connect();
     console.log(`Step 3: Connected to database '${dbName}'\n`);
 
-    // Step 4: Check UUID extension
-    console.log('Step 4: Checking UUID extension...');
-    const extensionResult = await targetClient.query(
-      "SELECT extname, extversion FROM pg_extension WHERE extname = 'uuid-ossp'",
-    );
-
-    if (extensionResult.rows.length === 0) {
-      console.log('✗ UUID extension is not enabled.');
-      console.log('  Run: npm run db:setup\n');
-      await targetClient.end();
-      process.exit(1);
-    }
-    console.log(
-      `✓ UUID extension enabled (version: ${extensionResult.rows[0].extversion})\n`,
-    );
-
-    // Step 5: Test basic query execution
-    console.log('Step 5: Testing basic query execution...');
+    // Step 4: Test basic query execution
+    console.log('Step 4: Testing basic query execution...');
     const testQueryResult = await targetClient.query('SELECT NOW() as current_time');
     console.log(
       `✓ Query executed successfully. Current time: ${testQueryResult.rows[0].current_time}\n`,
     );
 
-    // Step 6: Check if migrations have been run (check for customer_accounts table)
-    console.log('Step 6: Checking if migrations have been run...');
+    // Step 5: Check if migrations have been run (check for customer_accounts table)
+    console.log('Step 5: Checking if migrations have been run...');
     const tableCheckResult = await targetClient.query(
       "SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'customer_accounts')",
     );
@@ -98,8 +82,8 @@ async function checkDatabaseConnection(): Promise<void> {
       console.log('  Run: npm run db:migrate\n');
     }
 
-    // Step 7: Display connection pool information
-    console.log('Step 7: Connection information...');
+    // Step 6: Display connection pool information
+    console.log('Step 6: Connection information...');
     const versionResult = await targetClient.query('SELECT version()');
     console.log(`✓ PostgreSQL version: ${versionResult.rows[0].version.split(',')[0]}\n`);
 

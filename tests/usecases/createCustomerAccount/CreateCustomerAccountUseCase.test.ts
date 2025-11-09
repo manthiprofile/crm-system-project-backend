@@ -32,7 +32,7 @@ describe('CreateCustomerAccountUseCase', () => {
       };
 
       const createdAccount = new CustomerAccount(
-        '123e4567-e89b-12d3-a456-426614174000',
+        1,
         dto.firstName,
         dto.lastName,
         dto.email,
@@ -57,7 +57,7 @@ describe('CreateCustomerAccountUseCase', () => {
       };
 
       const existingAccount = new CustomerAccount(
-        '123e4567-e89b-12d3-a456-426614174000',
+        1,
         'Jane',
         'Smith',
         'existing@example.com',

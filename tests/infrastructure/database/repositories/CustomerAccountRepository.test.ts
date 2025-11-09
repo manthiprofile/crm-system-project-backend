@@ -24,7 +24,7 @@ describe('CustomerAccountRepository', () => {
   describe('create', () => {
     it('should create a customer account successfully', async () => {
       const customerAccount = new CustomerAccount(
-        '123e4567-e89b-12d3-a456-426614174000',
+        1,
         'John',
         'Doe',
         'john.doe@example.com',
@@ -48,7 +48,7 @@ describe('CustomerAccountRepository', () => {
 
     it('should throw DuplicateEmailException if email already exists', async () => {
       const customerAccount = new CustomerAccount(
-        '123e4567-e89b-12d3-a456-426614174000',
+        1,
         'John',
         'Doe',
         'existing@example.com',
@@ -56,7 +56,7 @@ describe('CustomerAccountRepository', () => {
 
       const existingEntity = CustomerAccountEntity.fromDomain(
         new CustomerAccount(
-          '223e4567-e89b-12d3-a456-426614174001',
+          2,
           'Jane',
           'Smith',
           'existing@example.com',
@@ -74,7 +74,7 @@ describe('CustomerAccountRepository', () => {
 
   describe('findById', () => {
     it('should return a customer account when found', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
       const entity = CustomerAccountEntity.fromDomain(
         new CustomerAccount(accountId, 'John', 'Doe', 'john.doe@example.com'),
       );
@@ -91,7 +91,7 @@ describe('CustomerAccountRepository', () => {
     });
 
     it('should return null when account not found', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
 
       vi.mocked(mockTypeOrmRepository.findOne).mockResolvedValue(null);
 
@@ -106,7 +106,7 @@ describe('CustomerAccountRepository', () => {
       const entities = [
         CustomerAccountEntity.fromDomain(
           new CustomerAccount(
-            '123e4567-e89b-12d3-a456-426614174000',
+            1,
             'John',
             'Doe',
             'john.doe@example.com',
@@ -114,7 +114,7 @@ describe('CustomerAccountRepository', () => {
         ),
         CustomerAccountEntity.fromDomain(
           new CustomerAccount(
-            '223e4567-e89b-12d3-a456-426614174001',
+            2,
             'Jane',
             'Smith',
             'jane.smith@example.com',
@@ -136,7 +136,7 @@ describe('CustomerAccountRepository', () => {
 
   describe('update', () => {
     it('should update a customer account successfully', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
       const existingEntity = CustomerAccountEntity.fromDomain(
         new CustomerAccount(accountId, 'John', 'Doe', 'john.doe@example.com'),
       );
@@ -161,7 +161,7 @@ describe('CustomerAccountRepository', () => {
     });
 
     it('should throw CustomerAccountNotFoundException when account not found', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
 
       vi.mocked(mockTypeOrmRepository.findOne).mockResolvedValue(null);
 
@@ -173,7 +173,7 @@ describe('CustomerAccountRepository', () => {
 
   describe('delete', () => {
     it('should delete a customer account successfully', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
       const entity = CustomerAccountEntity.fromDomain(
         new CustomerAccount(accountId, 'John', 'Doe', 'john.doe@example.com'),
       );
@@ -190,7 +190,7 @@ describe('CustomerAccountRepository', () => {
     });
 
     it('should throw CustomerAccountNotFoundException when account not found', async () => {
-      const accountId = '123e4567-e89b-12d3-a456-426614174000';
+      const accountId = 1;
 
       vi.mocked(mockTypeOrmRepository.findOne).mockResolvedValue(null);
 
@@ -205,7 +205,7 @@ describe('CustomerAccountRepository', () => {
       const email = 'john.doe@example.com';
       const entity = CustomerAccountEntity.fromDomain(
         new CustomerAccount(
-          '123e4567-e89b-12d3-a456-426614174000',
+          1,
           'John',
           'Doe',
           email,

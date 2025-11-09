@@ -39,7 +39,7 @@ export class UpdateCustomerAccountUseCase {
    * @throws InvalidCustomerAccountException if validation fails
    */
   public async execute(
-    accountId: string,
+    accountId: number,
     dto: UpdateCustomerAccountDTO,
   ): Promise<CustomerAccount> {
     const existingAccount = await this.customerAccountRepository.findById(

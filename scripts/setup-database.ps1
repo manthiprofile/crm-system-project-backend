@@ -1,5 +1,5 @@
 # PowerShell script to set up PostgreSQL database for CRM System
-# This script creates the database and enables the UUID extension
+# This script creates the database
 
 $ErrorActionPreference = "Continue"
 
@@ -101,33 +101,7 @@ if ($dbExists -eq "1") {
     }
 }
 
-# Step 2: Enable UUID extension
-Write-Host "`nEnabling UUID extension..." -ForegroundColor Cyan
-# Use psql directly with proper escaping for the extension name
-$uuidResult = & psql -h $dbHost -p $dbPort -U $dbUsername -d $dbName -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";' 2>&1
-
-if ($LASTEXITCODE -eq 0) {
-    Write-Host "Success: UUID extension enabled" -ForegroundColor Green
-} else {
-    # Filter out warnings and check for actual errors
-    $errors = $uuidResult | Where-Object { 
-        $_ -notmatch "WARNING" -and 
-        $_ -notmatch "collation" -and 
-        $_ -notmatch "version mismatch" -and
-        $_ -match "ERROR|FATAL|error"
-    }
-    
-    if ($errors) {
-        Write-Host "Error: Could not enable UUID extension" -ForegroundColor Red
-        Write-Host $errors -ForegroundColor Red
-        Write-Host "Warning: Migrations may fail. Please enable the extension manually:" -ForegroundColor Yellow
-        Write-Host "  psql -h $dbHost -p $dbPort -U $dbUsername -d $dbName -c 'CREATE EXTENSION IF NOT EXISTS ""uuid-ossp"";'" -ForegroundColor Yellow
-    } else {
-        Write-Host "Success: UUID extension enabled (warnings suppressed)" -ForegroundColor Green
-    }
-}
-
-# Step 3: Verify setup
+# Step 2: Verify setup
 Write-Host "`nVerifying database setup..." -ForegroundColor Cyan
 $verifyResult = & psql -h $dbHost -p $dbPort -U $dbUsername -d $dbName -tAc "SELECT 1;" 2>&1 | Where-Object { $_ -notmatch "WARNING|collation" }
 

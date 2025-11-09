@@ -20,7 +20,7 @@ export class DeleteCustomerAccountUseCase {
    * @returns Promise that resolves when deletion is complete
    * @throws CustomerAccountNotFoundException if account not found
    */
-  public async execute(accountId: string): Promise<void> {
+  public async execute(accountId: number): Promise<void> {
     const existingAccount = await this.customerAccountRepository.findById(
       accountId,
     );

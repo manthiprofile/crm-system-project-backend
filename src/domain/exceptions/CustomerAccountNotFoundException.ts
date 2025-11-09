@@ -7,7 +7,7 @@ export class CustomerAccountNotFoundException extends Error {
    *
    * @param accountId - The account ID that was not found
    */
-  constructor(accountId: string) {
+  constructor(accountId: number) {
     super(`Customer account with ID ${accountId} not found`);
     this.name = 'CustomerAccountNotFoundException';
     Object.setPrototypeOf(this, CustomerAccountNotFoundException.prototype);

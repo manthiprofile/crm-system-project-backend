@@ -4,7 +4,7 @@ const BASE_URL = 'http://localhost:3000';
 const API_BASE = `${BASE_URL}/customer-accounts`;
 
 test.describe('Customer Accounts API', () => {
-  let createdAccountId: string;
+  let createdAccountId: number;
 
   test('should create a new customer account', async ({ request }) => {
     const response = await request.post(API_BASE, {
@@ -117,7 +117,7 @@ test.describe('Customer Accounts API', () => {
   });
 
   test('should return 404 for non-existent account', async ({ request }) => {
-    const nonExistentId = '123e4567-e89b-12d3-a456-426614174999';
+    const nonExistentId = 999999;
     const response = await request.get(`${API_BASE}/${nonExistentId}`);
 
     expect(response.status()).toBe(404);
@@ -198,7 +198,7 @@ test.describe('Customer Accounts API', () => {
   test('should return 404 when deleting non-existent account', async ({
     request,
   }) => {
-    const nonExistentId = '123e4567-e89b-12d3-a456-426614174999';
+    const nonExistentId = 999999;
     const response = await request.delete(`${API_BASE}/${nonExistentId}`);
 
     expect(response.status()).toBe(404);

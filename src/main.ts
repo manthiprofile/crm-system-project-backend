@@ -3,12 +3,27 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './presentation/filters/HttpExceptionFilter';
+import { ConfigService } from '@nestjs/config';
 
 /**
  * Bootstraps the NestJS application.
  */
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+
+  // Enable CORS with environment-based configuration
+  const frontendOrigin = configService.get<string>('FRONTEND_ORIGIN', 'http://localhost:5173');
+  const corsOrigins = configService.get<string>('CORS_ORIGINS', frontendOrigin);
+  const allowedOrigins = corsOrigins.split(',').map((origin) => origin.trim());
+
+  app.enableCors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    credentials: true,
+    optionsSuccessStatus: 200,
+  });
 
   // Enable global validation pipe
   app.useGlobalPipes(
@@ -42,9 +57,10 @@ async function bootstrap(): Promise<void> {
     },
   });
 
-  const port = process.env.PORT || 3000;
+  const port = configService.get<number>('PORT', 3000);
   await app.listen(port);
   console.log(`Application is running on: http://localhost:${port}`);
   console.log(`Swagger API documentation: http://localhost:${port}/api`);
+  console.log(`CORS enabled for origins: ${allowedOrigins.join(', ')}`);
 }
 bootstrap();

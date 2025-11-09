@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  ParseIntPipe,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
@@ -117,12 +118,13 @@ export class CustomerAccountController {
   @Get(':id')
   @ApiOperation({
     summary: 'Get a customer account by ID',
-    description: 'Retrieves a single customer account by its unique identifier (UUID).',
+    description: 'Retrieves a single customer account by its unique identifier (serial ID).',
   })
   @ApiParam({
     name: 'id',
-    description: 'Customer account UUID',
-    example: '123e4567-e89b-12d3-a456-426614174000',
+    description: 'Customer account ID (integer)',
+    example: 1,
+    type: Number,
   })
   @ApiOkResponse({
     description: 'Customer account retrieved successfully',
@@ -133,7 +135,7 @@ export class CustomerAccountController {
     type: ErrorResponseDTO,
   })
   public async findOne(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
   ): Promise<CustomerAccountResponseDTO> {
     const customerAccount = await this.getCustomerAccountUseCase.execute(id);
     return CustomerAccountResponseDTO.fromDomain(customerAccount);
@@ -153,8 +155,9 @@ export class CustomerAccountController {
   })
   @ApiParam({
     name: 'id',
-    description: 'Customer account UUID',
-    example: '123e4567-e89b-12d3-a456-426614174000',
+    description: 'Customer account ID (integer)',
+    example: 1,
+    type: Number,
   })
   @ApiBody({ type: UpdateCustomerAccountDTO })
   @ApiOkResponse({
@@ -174,7 +177,7 @@ export class CustomerAccountController {
     type: ErrorResponseDTO,
   })
   public async update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateCustomerAccountDTO,
   ): Promise<CustomerAccountResponseDTO> {
     const customerAccount = await this.updateCustomerAccountUseCase.execute(
@@ -204,12 +207,13 @@ export class CustomerAccountController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
     summary: 'Delete a customer account',
-    description: 'Permanently deletes a customer account by its unique identifier (UUID).',
+    description: 'Permanently deletes a customer account by its unique identifier (serial ID).',
   })
   @ApiParam({
     name: 'id',
-    description: 'Customer account UUID',
-    example: '123e4567-e89b-12d3-a456-426614174000',
+    description: 'Customer account ID (integer)',
+    example: 1,
+    type: Number,
   })
   @ApiNoContentResponse({
     description: 'Customer account successfully deleted',
@@ -218,7 +222,7 @@ export class CustomerAccountController {
     description: 'Customer account not found',
     type: ErrorResponseDTO,
   })
-  public async remove(@Param('id') id: string): Promise<void> {
+  public async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.deleteCustomerAccountUseCase.execute(id);
   }
 }

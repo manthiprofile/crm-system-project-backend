@@ -33,13 +33,13 @@ describe('ListCustomerAccountsUseCase', () => {
     it('should return all customer accounts', async () => {
       const accounts = [
         new CustomerAccount(
-          '123e4567-e89b-12d3-a456-426614174000',
+          1,
           'John',
           'Doe',
           'john.doe@example.com',
         ),
         new CustomerAccount(
-          '223e4567-e89b-12d3-a456-426614174001',
+          2,
           'Jane',
           'Smith',
           'jane.smith@example.com',

@@ -21,7 +21,7 @@ export class GetCustomerAccountUseCase {
    * @returns Promise resolving to the customer account
    * @throws CustomerAccountNotFoundException if account not found
    */
-  public async execute(accountId: string): Promise<CustomerAccount> {
+  public async execute(accountId: number): Promise<CustomerAccount> {
     const customerAccount = await this.customerAccountRepository.findById(
       accountId,
     );

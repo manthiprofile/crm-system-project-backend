@@ -19,5 +19,9 @@ export const databaseConfigSchema = Joi.object({
   NODE_ENV: Joi.string()
     .valid('development', 'production', 'test')
     .default('development'),
+
+  // CORS Configuration
+  FRONTEND_ORIGIN: Joi.string().uri().default('http://localhost:5173'),
+  CORS_ORIGINS: Joi.string().default('http://localhost:5173'),
 });
 
