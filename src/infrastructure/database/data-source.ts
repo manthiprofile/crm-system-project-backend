@@ -5,6 +5,7 @@ config();
 
 /**
  * TypeORM data source configuration for migrations.
+ * Aligned with database module configuration for consistency.
  */
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -17,6 +18,17 @@ export const dataSourceOptions: DataSourceOptions = {
   migrations: [__dirname + '/migrations/*{.ts,.js}'],
   synchronize: false,
   logging: process.env.NODE_ENV === 'development',
+  ssl:
+    process.env.DB_SSL === 'true'
+      ? {
+          rejectUnauthorized: false,
+        }
+      : false,
+  extra: {
+    max: parseInt(process.env.DB_POOL_SIZE || '10', 10),
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: parseInt(process.env.DB_TIMEOUT || '10000', 10),
+  },
 };
 
 export const AppDataSource = new DataSource(dataSourceOptions);

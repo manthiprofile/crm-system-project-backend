@@ -10,6 +10,9 @@ export class CreateCustomerAccounts1731100000000 implements MigrationInterface {
    * @param queryRunner - TypeORM query runner
    */
   public async up(queryRunner: QueryRunner): Promise<void> {
+    // Ensure UUID extension is enabled
+    await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
+
     await queryRunner.createTable(
       new Table({
         name: 'customer_accounts',
