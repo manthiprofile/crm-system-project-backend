@@ -230,9 +230,6 @@ bash scripts/setup-database.sh
 - The setup script is idempotent - safe to run multiple times
 - If you need to start fresh: `npm run db:reset` (drops and recreates)
 
-**UUID extension error:**
-- Ensure you're connected to the `crm_system` database
-- Run: `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
 
 **Permission denied:**
 - Ensure your PostgreSQL user has CREATE DATABASE privileges
@@ -248,7 +245,6 @@ npm run db:check
 
 # This will verify:
 # - Database connection
-# - UUID extension is enabled
 # - Migrations have been run
 # - Tables exist
 ```
@@ -521,7 +517,7 @@ This project follows Clean Architecture principles with the following layers:
 
 ### Customer Account
 
-- **accountId**: UUID (Primary Key, auto-generated)
+- **accountId**: Seq No (Primary Key, auto-generated)
 - **firstName**: String (Required)
 - **lastName**: String (Required)
 - **email**: String (Required, Unique)
